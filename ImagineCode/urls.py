@@ -1,7 +1,7 @@
 from django.urls import path
-from rest_framework import request
 
-from .views import ListBoxes, CreateBox, CreateInstruction, ListInstructions, Resume, TakeProduct, PutProduct
+from .views import ListBoxes, CreateBox, CreateInstruction, ListInstructions, Resume, TakeProduct, PutProduct, \
+    ReviewBox, CreateTest
 
 urlpatterns = [
     path('view/box', ListBoxes.as_view(), name="boxes-all"),
@@ -10,6 +10,7 @@ urlpatterns = [
     path('create/instruction', CreateInstruction.as_view(), name="create-instruction"),
     path('resume', Resume.as_view(), name="resume"),
     path('take', TakeProduct.as_view(), name="take"),
-    path('put', PutProduct.as_view(), name="put")
-
+    path('put', PutProduct.as_view(), name="put"),
+    path('review', ReviewBox.as_view(), name="review"),
+    path('test', CreateTest.as_view(), name="test")
 ]
