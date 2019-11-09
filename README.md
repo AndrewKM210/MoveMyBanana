@@ -60,3 +60,22 @@ Returns:
   "error": "true | false"
 }
 ```
+### Put products to a box
+*POST* /put
+```json
+{
+  "id": "O.1",
+  "name": "Banana",
+  "quantity": 1
+}
+```
+Returns:
+```json
+{
+  "action": "take | put",
+  "name": "Banana",
+  "quantity": 1,
+  "box": "O.1",
+  "error": "true | false"
+}
+```

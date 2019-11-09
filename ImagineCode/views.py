@@ -95,6 +95,21 @@ class TakeProduct(generics.UpdateAPIView):
             return Response(response)
 
 
+class PutProduct(generics.UpdateAPIView):
+
+    def post(self, request, *args):
+        instruction = Instruction.objects.first()
+        take_json = json.loads(request.body.decode())
+        if instruction.box_id == take_json.get("id") and instruction.name == take_json.get("name") and instruction.quantity == take_json.get("quantity") and instruction.action == "put":
+            instruction.delete()
+            response = InstructionSerializer(Instruction.objects.first()).data
+            response.update({"error": "false"})
+            return Response(response)
+        else:
+            response = InstructionSerializer(Instruction.objects.first()).data
+            response.update({"error": "true"})
+            return Response(response)
+
 
 
 
