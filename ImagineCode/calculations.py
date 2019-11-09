@@ -17,15 +17,10 @@ def calculate_intructions(productos_origen, productos_destino, distancias, inici
     Instruction.objects.create(action="take", name=tupla_origen_destino[0].name, quantity=tupla_origen_destino[0].quantity, box=tupla_origen_destino[0].box)
     Instruction.objects.create(action="put", name=tupla_origen_destino[1].name, quantity=tupla_origen_destino[1].quantity, box=tupla_origen_destino[1].box)
 
-    print(len(productos_origen))
-
     productos_origen.remove(tupla_origen_destino[0])
     productos_destino.remove(tupla_origen_destino[1])
 
-    print(len(productos_origen))
-
     if len(productos_origen) > 0:
-        print("WWEEEEEEEEEEE")
         calculate_intructions(productos_origen, productos_destino, distancias, None, None)
 
 

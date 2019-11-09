@@ -56,6 +56,7 @@ Returns:
   "action": "take | put",
   "name": "Banana",
   "quantity": 1,
-  "box": "O.1"
+  "box": "O.1",
+  "error": "true | false"
 }
 ```
