@@ -30,6 +30,17 @@
 ```
 ### List all instructions
 *GET* /view/instruction
+### Resume instructions
+*GET* /resume
+Returns:
+```json
+{
+  "action": "take | put",
+  "name": "Banana",
+  "quantity": 1,
+  "box": "O.1"
+}
+```
 ### Take products from box
 *POST* /take
 ```json
