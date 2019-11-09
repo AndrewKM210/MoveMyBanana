@@ -1,6 +1,3 @@
-from django.http import HttpResponse
-from django.shortcuts import render
-
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.utils import json
@@ -32,7 +29,8 @@ class CreateBox(generics.CreateAPIView):
 
     def post(self, request, *args):
         box = json.loads(request.body.decode())
-        box_foreign = Box.objects.create(id=box.get("id"), type=box.get("type"), posX=box.get("posX"), posY=box.get("posY"))
+        box_type = "origin" if box.get("id").split('.')[0] == "O" else "target"
+        box_foreign = Box.objects.create(id=box.get("id"), type=box_type, pos=box.get("pos"))
         products = box.get("products")
         for product in products:
             Product.objects.create(name=product.get("name"), quantity=product.get("quantity"), box=box_foreign)
@@ -53,20 +51,32 @@ class Resume(generics.ListAPIView):
     def get(self, request, *args):
         if Instruction.objects.all().count() == 0:
             try:
-                origin_boxes = Box.objects.filter(type="origin")
-                target_boxes = Box.objects.filter(type="target")
-                print(origin_boxes.values())
-                distances = calculate_distances(origin_boxes, target_boxes)
-                calculate_intructions(origin_boxes, target_boxes, distances, None, None)
+                products = Product.objects.all()
+                products_values = products.values()
+                products = [entry for entry in products_values]
+                products_origin = []
+                products_target = []
+                boxes_origin = []
+                boxes_target = []
+                for product in products:
+                    box = Box.objects.get(pk=product.get("box_id"))
+                    if box.type == "origin":
+                        boxes_origin.append(box)
+                        products_origin.append(Product(name=product.get("name"), quantity=product.get("quantity"), box=box))
+                    else:
+                        boxes_target.append(box)
+                        products_target.append(Product(name=product.get("name"), quantity=product.get("quantity"), box=box))
+
+                distances = calculate_distances(boxes_origin, boxes_target)
+                calculate_intructions(products_origin, products_target, distances, None, None)
+                return Response(InstructionSerializer(Instruction.objects.first()).data)
 
             except Box.DoesNotExist:
                 print("THERE ARE NO BOXES AVAILABE")
-
-            return Response(None)
+                return Response(None)
 
         else:
-            serialized_instructions = InstructionSerializer(Instruction.objects.first())
-            return Response(serialized_instructions.data)
+            return Response(InstructionSerializer(Instruction.objects.first()).data)
 
 
 class TakeProduct(generics.UpdateAPIView):

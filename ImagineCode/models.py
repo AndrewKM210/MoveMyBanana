@@ -5,8 +5,7 @@ class Box(models.Model):
 
     id = models.CharField(max_length=20, primary_key=True)
     type = models.CharField(max_length=6)
-    posX = models.FloatField()
-    posY = models.FloatField()
+    pos = models.IntegerField()
 
 
 class Product(models.Model):
