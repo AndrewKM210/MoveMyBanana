@@ -30,12 +30,21 @@
 ```
 ### List all instructions
 *GET* /view/instruction
-### Set distance in between boxes
-*POST* /distance
+### Take products from box
+*POST* /take
 ```json
 {
-  "box1": "O.1",
-  "box2": "D.1",
-  "distance": 1.0
+  "id": "O.1",
+  "name": "Banana",
+  "quantity": 1
+}
+```
+Returns:
+```json
+{
+  "action": "take | put",
+  "name": "Banana",
+  "quantity": 1,
+  "box": "O.1"
 }
 ```
