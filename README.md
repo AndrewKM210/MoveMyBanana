@@ -8,7 +8,7 @@
   "type": "origin | target",
   "posX": 0.0,
   "posY": 0.0,
-  "product" : [
+  "products" : [
     {
         "name": "Banana",
         "quantity": 0
