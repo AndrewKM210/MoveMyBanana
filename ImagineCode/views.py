@@ -5,6 +5,7 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.utils import json
 
+from ImagineCode.calculations import calculate_distances, calculate_intructions
 from .models import Box, Product, Instruction
 from ImagineCode.serializers import BoxSerializer, InstructionSerializer
 
@@ -50,8 +51,22 @@ class CreateInstruction(generics.CreateAPIView):
 class Resume(generics.ListAPIView):
 
     def get(self, request, *args):
-        serialized_instructions = InstructionSerializer(Instruction.objects.first())
-        return Response(serialized_instructions.data)
+        if Instruction.objects.all().count() == 0:
+            try:
+                origin_boxes = Box.objects.filter(type="origin")
+                target_boxes = Box.objects.filter(type="target")
+                print(origin_boxes.values())
+                distances = calculate_distances(origin_boxes, target_boxes)
+                calculate_intructions(origin_boxes, target_boxes, distances, None, None)
+
+            except Box.DoesNotExist:
+                print("THERE ARE NO BOXES AVAILABE")
+
+            return Response(None)
+
+        else:
+            serialized_instructions = InstructionSerializer(Instruction.objects.first())
+            return Response(serialized_instructions.data)
 
 
 class TakeProduct(generics.UpdateAPIView):
