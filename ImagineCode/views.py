@@ -81,8 +81,8 @@ class Resume(generics.ListAPIView):
 
 class TakeProduct(generics.UpdateAPIView):
 
-    def post(self, request):
-        id = ''
+    def post(self, request, *args):
+        instruction = Instruction.objects.first();
 
 
 

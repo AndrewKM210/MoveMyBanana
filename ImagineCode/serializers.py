@@ -5,7 +5,7 @@ from .models import Box, Instruction
 class BoxSerializer(serializers.ModelSerializer):
     class Meta:
         model = Box
-        fields = ("id", "type", "posX", "posY")
+        fields = ("id", "type", "pos")
 
 
 class InstructionSerializer(serializers.ModelSerializer):
