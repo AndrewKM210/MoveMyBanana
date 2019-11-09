@@ -32,8 +32,10 @@
 *GET* /view/instruction
 ### Take products from box
 *POST* /take
+```json
 {
   "id"= "O.1",
   "name"= "Banana",
   "quantity" = 1
 }
+```
