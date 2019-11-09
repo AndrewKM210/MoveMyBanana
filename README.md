@@ -1,7 +1,7 @@
 # MoveMyBanana
 ## API
 ### Create a box
-*POST* /create
+*POST* /create/box
 ```json
 {
   "id": "O.1 | D.1",
@@ -17,4 +17,25 @@
 }
 ```
 ### List all boxes
-*GET* /view
+*GET* /view/box
+### Create an instruction
+*POST* /create/instruction
+```json
+{
+  "action": "take | drop",
+  "name": "Banana",
+  "quantity": 1,
+  "box": "O.1"
+}
+```
+### List all instructions
+*GET* /view/instruction
+### Set distance in between boxes
+*POST* /distance
+```json
+{
+  "box1": "O.1",
+  "box2": "D.1",
+  "distance": 1.0
+}
+```
