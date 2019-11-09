@@ -39,3 +39,12 @@
   "quantity": 1
 }
 ```
+Returns:
+```json
+{
+  "action": "take | put",
+  "name": "Banana",
+  "quantity": 1,
+  "box": "O.1"
+}
+```
