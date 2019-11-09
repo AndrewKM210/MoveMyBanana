@@ -34,8 +34,8 @@
 *POST* /take
 ```json
 {
-  "id"= "O.1",
-  "name"= "Banana",
-  "quantity" = 1
+  "id": "O.1",
+  "name": "Banana",
+  "quantity": 1
 }
 ```
