@@ -74,6 +74,9 @@ class TakeProduct(generics.UpdateAPIView):
         if instruction.box_id == take_json.get("id") and instruction.name == take_json.get("name") \
                 and instruction.quantity == take_json.get("quantity") and instruction.action == "take":
             instruction.delete()
+            product = Product.objects.get(name=take_json.get("name"), box_id=take_json.get("id"))
+            product.quantity = product.quantity - int(take_json.get("quantity"))
+            product.save()
             response = InstructionSerializer(Instruction.objects.first()).data
             response.update({"error": "false"})
             return Response(response)
@@ -94,6 +97,9 @@ class PutProduct(generics.UpdateAPIView):
         if instruction.box_id == take_json.get("id") and instruction.name == take_json.get("name") \
                 and instruction.quantity == take_json.get("quantity") and instruction.action == "put":
             instruction.delete()
+            product = Product.objects.get(name=take_json.get("name"), box_id=take_json.get("id"))
+            product.quantity = product.quantity - int(take_json.get("quantity"))
+            product.save()
             response = InstructionSerializer(Instruction.objects.first()).data
             response.update({"error": "false"})
             return Response(response)
@@ -101,6 +107,17 @@ class PutProduct(generics.UpdateAPIView):
             response = InstructionSerializer(Instruction.objects.first()).data
             response.update({"error": "true"})
             return Response(response)
+
+
+class ReviewBox(generics.UpdateAPIView):
+
+    def post(self, request, *args):
+        take_json = json.loads(request.body.decode())
+        Product.objects.get(box_id=take_json.get("id")).delete()
+        Product.objects.create(name=take_json.get("name"), quantity=take_json.get("quantity"), box_id=take_json.get("id"))
+        Instruction.objects.all().delete()
+        recalculate_instructions()
+        return Response(InstructionSerializer(Instruction.objects.first()).data)
 
 
 class CreateTest(generics.UpdateAPIView):
@@ -123,19 +140,3 @@ class CreateTest(generics.UpdateAPIView):
         Product.objects.create(name="fresa", quantity=3, box_id="D.2")
         Product.objects.create(name="naranja", quantity=5, box_id="D.2")
         return Response("OK")
-
-
-
-class ReviewBox(generics.UpdateAPIView):
-
-    def post(self, request, *args):
-        take_json = json.loads(request.body.decode())
-        Product.objects.get(box_id=take_json.get("id")).delete()
-        Product.objects.create(name=take_json.get("name"), quantity=take_json.get("quantity"), box_id=take_json.get("id"))
-        Instruction.objects.all().delete()
-        recalculate_instructions()
-        return Response(InstructionSerializer(Instruction.objects.first()).data)
-
-
-
-
