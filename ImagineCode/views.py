@@ -4,7 +4,7 @@ from rest_framework.utils import json
 
 from ImagineCode.calculations import recalculate_instructions
 from .models import Box, Product, Instruction
-from ImagineCode.serializers import BoxSerializer, InstructionSerializer
+from ImagineCode.serializers import BoxSerializer, InstructionSerializer, ProductSerializer
 
 
 class ListBoxes(generics.ListAPIView):
@@ -13,8 +13,6 @@ class ListBoxes(generics.ListAPIView):
 
     def get(self, request, *args):
         serialized_boxes = BoxSerializer(Box.objects.all(), many=True)
-        # Product.objects.get(pk=11165).delete()
-        # Product.objects.create(name="Banana", quantity=3, box_id="O.2")
         return Response(serialized_boxes.data)
 
 
@@ -24,6 +22,15 @@ class ListInstructions(generics.ListAPIView):
 
     def get(self, request, *args):
         serialized_instructions = InstructionSerializer(Instruction.objects.all(), many=True)
+        return Response(serialized_instructions.data)
+
+
+class ListProducts(generics.ListAPIView):
+
+    queryset = ''
+
+    def get(self, request, *args):
+        serialized_instructions = ProductSerializer(Product.objects.all(), many=True)
         return Response(serialized_instructions.data)
 
 

@@ -1,10 +1,11 @@
 from django.urls import path
 
 from .views import ListBoxes, CreateBox, CreateInstruction, ListInstructions, Resume, TakeProduct, PutProduct, \
-    ReviewBox, CreateTest
+    ReviewBox, CreateTest, ListProducts
 
 urlpatterns = [
     path('view/box', ListBoxes.as_view(), name="boxes-all"),
+    path('view/product', ListProducts.as_view(), name="products-all"),
     path('view/instruction', ListInstructions.as_view(), name="instructions-all"),
     path('create/box', CreateBox.as_view(), name="create-box"),
     path('create/instruction', CreateInstruction.as_view(), name="create-instruction"),
