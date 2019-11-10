@@ -1,6 +1,5 @@
 from rest_framework import generics
 from rest_framework.response import Response
-from rest_framework.serializers import Serializer
 from rest_framework.utils import json
 
 from ImagineCode.calculations import recalculate_instructions
@@ -76,7 +75,10 @@ class TakeProduct(generics.UpdateAPIView):
             instruction.delete()
             product = Product.objects.get(name=take_json.get("name"), box_id=take_json.get("id"))
             product.quantity = product.quantity - int(take_json.get("quantity"))
-            product.save()
+            if product.quantity == 0:
+                product.delete()
+            else:
+                product.save()
             response = InstructionSerializer(Instruction.objects.first()).data
             response.update({"error": "false"})
             return Response(response)
@@ -99,7 +101,10 @@ class PutProduct(generics.UpdateAPIView):
             instruction.delete()
             product = Product.objects.get(name=take_json.get("name"), box_id=take_json.get("id"))
             product.quantity = product.quantity - int(take_json.get("quantity"))
-            product.save()
+            if product.quantity == 0:
+                product.delete()
+            else:
+                product.save()
             response = InstructionSerializer(Instruction.objects.first()).data
             response.update({"error": "false"})
             return Response(response)
