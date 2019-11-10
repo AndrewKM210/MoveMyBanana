@@ -16,8 +16,6 @@
   ]
 }
 ```
-### List all boxes
-*GET* /view/box
 ### Create an instruction
 *POST* /create/instruction
 ```json
@@ -28,6 +26,10 @@
   "box": "O.1"
 }
 ```
+### List all boxes
+*GET* /view/box
+### List all products
+*GET* /view/product
 ### List all instructions
 *GET* /view/instruction
 ### Resume instructions
@@ -79,3 +81,5 @@ Returns:
   "error": "true | false"
 }
 ```
+### Create test scenario
+*POST* /test
